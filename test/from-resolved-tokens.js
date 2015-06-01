@@ -4,12 +4,12 @@ module.exports = function (t, a) {
 	var result;
 
 	a.h1("Plain text");
-	result = t(document, 'razdwa', {});
+	result = t(document, ['razdwa']);
 	a(result.nodeType, 3);
 	a(result.data, 'razdwa');
 
 	a.h1("Mixed");
-	result = t(document, '<p>raz <strong>elo</strong> dwa</p>', {});
+	result = t(document, ['<p>raz <strong>elo</strong> dwa</p>']);
 	a(result.nodeName, 'P');
 	a(result.childNodes.length, 3);
 	a(result.childNodes[0].data, 'raz ');
@@ -18,7 +18,7 @@ module.exports = function (t, a) {
 	a(result.childNodes[2].data, ' dwa');
 
 	a.h1("Plain with variables");
-	result = t(document, '<p>marko ${ miszel } zagalo</p>', { miszel: 'fura' });
+	result = t(document, ['<p>marko ', 'fura', ' zagalo</p>']);
 	a(result.nodeName, 'P');
 	a(result.childNodes.length, 3);
 	a(result.childNodes[0].data, 'marko ');
@@ -26,17 +26,15 @@ module.exports = function (t, a) {
 	a(result.childNodes[2].data, ' zagalo');
 
 	a.h1("Mixed with variables");
-	result = t(document, '<p>marko <strong>marek ${ miszel }<a href="elo.pdf"> zegarek</a>' +
-		'</strong> zagalo ${ fuszka }</p>', {
-			miszel: 'fura',
-			fuszka: {
-				toDOM: function (document) {
-					var el = document.createElement('p');
-					el.innerHTML = 'razdwa';
-					return el;
-				}
+	result = t(document, ['<p>marko <strong>marek ', 'fura',
+		'<a href="elo.pdf"> zegarek</a></strong> zagalo ',
+		{
+			toDOM: function (document) {
+				var el = document.createElement('p');
+				el.innerHTML = 'razdwa';
+				return el;
 			}
-		});
+		}, '</p>']);
 	a(result.nodeName, 'P');
 	a(result.childNodes.length, 4);
 	a(result.childNodes[0].data, 'marko ');
