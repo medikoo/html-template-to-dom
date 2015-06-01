@@ -2,6 +2,7 @@
 
 var forEachRight        = require('es5-ext/array/#/for-each-right')
   , ensureArray         = require('es5-ext/array/valid-array')
+  , ensureCallable      = require('es5-ext/object/valid-callable')
   , isDocumentFragment  = require('dom-ext/document-fragment/is-document-fragment')
   , isElement           = require('dom-ext/element/is-element')
   , isText              = require('dom-ext/text/is-text')
@@ -61,8 +62,9 @@ var fixInserts = function (dom, inserts, document) {
 	return dom;
 };
 
-module.exports = function (document, tokens) {
-	var insertsMap, insertIndex = -1, dom, html;
+module.exports = function (document, tokens/*, options*/) {
+	var insertsMap, insertIndex = -1, dom, html, options = Object(arguments[2]), normalize;
+	if (options.normalize != null) normalize = ensureCallable(normalize);
 	validDocument(document);
 	ensureArray(tokens);
 	insertsMap = [];
@@ -71,6 +73,7 @@ module.exports = function (document, tokens) {
 		insertsMap[++insertIndex] = b;
 		return a + '\x01' + String(insertIndex) + '\x01';
 	}, '');
+	if (normalize) html = normalize(html);
 	dom = htmlToDom.call(document, html);
 	if (!insertsMap) return dom;
 	return fixInserts(dom, insertsMap, document);
