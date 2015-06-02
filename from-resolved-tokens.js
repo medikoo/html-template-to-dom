@@ -63,8 +63,10 @@ var fixInserts = function (dom, inserts, document) {
 };
 
 module.exports = function (document, tokens/*, options*/) {
-	var insertsMap, insertIndex = -1, dom, html, options = Object(arguments[2]), normalize;
-	if (options.normalize != null) normalize = ensureCallable(normalize);
+	var insertsMap, insertIndex = -1, dom, html, options = Object(arguments[2])
+	  , normalizeHtml, normalizeDom;
+	if (options.normalizeHtml != null) normalizeHtml = ensureCallable(normalizeHtml);
+	if (options.normalizeDom != null) normalizeDom = ensureCallable(normalizeDom);
 	validDocument(document);
 	ensureArray(tokens);
 	insertsMap = [];
@@ -73,7 +75,7 @@ module.exports = function (document, tokens/*, options*/) {
 		insertsMap[++insertIndex] = b;
 		return a + '\x01' + String(insertIndex) + '\x01';
 	}, '');
-	if (normalize) html = normalize(html);
+	if (normalizeHtml) html = normalizeHtml(html);
 	dom = htmlToDom.call(document, html);
 	if (!insertsMap) return dom;
 	return fixInserts(dom, insertsMap, document);
