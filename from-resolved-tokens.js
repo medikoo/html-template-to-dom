@@ -65,8 +65,8 @@ var fixInserts = function (dom, inserts, document) {
 module.exports = function (document, tokens/*, options*/) {
 	var insertsMap, insertIndex = -1, dom, html, options = Object(arguments[2])
 	  , normalizeHtml, normalizeDom;
-	if (options.normalizeHtml != null) normalizeHtml = ensureCallable(normalizeHtml);
-	if (options.normalizeDom != null) normalizeDom = ensureCallable(normalizeDom);
+	if (options.normalizeHtml != null) normalizeHtml = ensureCallable(options.normalizeHtml);
+	if (options.normalizeDom != null) normalizeDom = ensureCallable(options.normalizeDom);
 	validDocument(document);
 	ensureArray(tokens);
 	insertsMap = [];
