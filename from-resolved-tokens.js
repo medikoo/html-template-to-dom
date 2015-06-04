@@ -9,6 +9,8 @@ var forEachRight        = require('es5-ext/array/#/for-each-right')
   , normalize           = require('dom-ext/document/#/normalize')
   , validDocument       = require('dom-ext/html-document/valid-html-document')
   , htmlToDom           = require('dom-ext/html-document/#/html-to-dom')
+  , isParentNode        = require('dom-ext/parent-node/is')
+  , reEvaluateScripts   = require('html-dom-ext/node#/re-evaluate-scripts')
 
   , insertsRe = /\x01(\d+)\x01/, justInsertRe = /^\x01(\d+)\x01$/
 
@@ -77,6 +79,7 @@ module.exports = function (document, tokens/*, options*/) {
 	}, '');
 	if (normalizeHtml) html = normalizeHtml(html);
 	dom = htmlToDom.call(document, html);
+	if (isParentNode(dom)) reEvaluateScripts.call(dom);
 	if (normalizeDom) dom = normalizeDom(dom);
 	if (insertsMap) dom = fixInserts(dom, insertsMap, document);
 	return dom;
