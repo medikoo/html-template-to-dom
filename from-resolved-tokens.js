@@ -78,6 +78,6 @@ module.exports = function (document, tokens/*, options*/) {
 	if (normalizeHtml) html = normalizeHtml(html);
 	dom = htmlToDom.call(document, html);
 	if (normalizeDom) dom = normalizeDom(dom);
-	if (!insertsMap) return dom;
-	return fixInserts(dom, insertsMap, document);
+	if (insertsMap) dom = fixInserts(dom, insertsMap, document);
+	return dom;
 };
