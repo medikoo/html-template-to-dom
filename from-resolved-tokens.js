@@ -79,7 +79,7 @@ module.exports = function (document, tokens/*, options*/) {
 	}, '');
 	if (normalizeHtml) html = normalizeHtml(html);
 	dom = htmlToDom.call(document, html);
-	if (isParentNode(dom)) reEvaluateScripts.call(dom);
+	if (isParentNode(dom)) reEvaluateScripts.call(dom, options.reEvaluateScripts);
 	if (normalizeDom) dom = normalizeDom(dom);
 	if (insertsMap) dom = fixInserts(dom, insertsMap, document);
 	return dom;
