@@ -39,6 +39,8 @@ Converts provided `html` to DOM (owned by `document`). Options are described und
 1. In HTML string ES6 template inserts are replaced with markers (control characters).
 2. HTML is resolved to DOM
 3. Result DOM tree is iterated, and all found insert markers are replaced with actual inserts
+4. Eventual `script` elements are converted to ones that will be evaluated by engine when inserted
+into document (by default Browser doesn't evaluate scripts injected via innerHTML)
 
 #### domFromResolvedTokens(document, tokens[, options]);
 
@@ -53,7 +55,8 @@ Resolves already resolved tokens, into DOM. It's a low-level resolver used inter
 ###### Supported options:
 - __normalizeHtml__ - Additional HTML resolver. If provided, it's used after ES6 templates inserts are removed, but before DOM is resolved
 (between 1 and 2 step of [resolution flow](#html---dom-resolution-flow)).
-- __normalizeDom__ - Additional DOM resolver. If provided, it's used after DOM is resolved but before inserts are put in (between 2 and 3 step of [resolution flow](#html---dom-resolution-flow)).
+- __normalizeDomBeforeInserts__ - Additional DOM resolver. If provided, it's used after DOM is resolved but before inserts are put in (between 2 and 3 step of [resolution flow](#html---dom-resolution-flow)).
+- __normalizeDomAfterInserts__ - Additional DOM resolver. If provided, it's used after inserts are put in (between 3 and 4 step of [resolution flow](#html---dom-resolution-flow)).
 
 
 ## Tests [![Build Status](https://travis-ci.org/medikoo/html-template-to-dom.svg)](https://travis-ci.org/medikoo/html-template-to-dom)

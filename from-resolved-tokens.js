@@ -66,9 +66,14 @@ var fixInserts = function (dom, inserts, document) {
 
 module.exports = function (document, tokens/*, options*/) {
 	var insertsMap, insertIndex = -1, dom, html, options = Object(arguments[2])
-	  , normalizeHtml, normalizeDom;
+	  , normalizeHtml, normalizeDomBeforeInserts, normalizeDomAfterInserts;
 	if (options.normalizeHtml != null) normalizeHtml = ensureCallable(options.normalizeHtml);
-	if (options.normalizeDom != null) normalizeDom = ensureCallable(options.normalizeDom);
+	if (options.normalizeDomBeforeInserts != null) {
+		normalizeDomBeforeInserts = ensureCallable(options.normalizeDomBeforeInserts);
+	}
+	if (options.normalizeDomAfterInserts != null) {
+		normalizeDomAfterInserts = ensureCallable(options.normalizeDomAfterInserts);
+	}
 	validDocument(document);
 	ensureArray(tokens);
 	insertsMap = [];
@@ -79,8 +84,9 @@ module.exports = function (document, tokens/*, options*/) {
 	}, '');
 	if (normalizeHtml) html = normalizeHtml(html);
 	dom = htmlToDom.call(document, html);
-	if (normalizeDom) dom = normalizeDom(dom);
+	if (normalizeDomBeforeInserts) dom = normalizeDomBeforeInserts(dom);
 	if (insertsMap) dom = fixInserts(dom, insertsMap, document);
+	if (normalizeDomAfterInserts) dom = normalizeDomAfterInserts(dom);
 	if (isParentNode(dom)) reEvaluateScripts.call(dom, options.reEvaluateScripts);
 	return dom;
 };
