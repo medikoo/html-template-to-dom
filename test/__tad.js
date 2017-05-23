@@ -3,7 +3,7 @@
 var document;
 
 try {
-	document = require('jsdom').jsdom();
+	document = new (require('jsdom').JSDOM)().window.document;
 } catch (ignore) {}
 
 exports.context = document ? {
