@@ -1,6 +1,6 @@
 {
   "name": "html-template-to-dom",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Resolve HTML string with ES6 template style inserts into DOM",
   "author": "Mariusz Nowak <medyk@medikoo.com> (http://www.medikoo.com/)",
   "keywords": [
